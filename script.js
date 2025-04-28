@@ -9,19 +9,19 @@ form.addEventListener('submit', (e) => {
   const username = document.getElementById('username').value;
   const password = document.getElementById('password').value;
 
-  // Check if the user already exists
+  // Retrieve users from LocalStorage
   let users = JSON.parse(localStorage.getItem('users')) || [];
-  const userExists = users.some(user => user.username === username);
 
-  if (userExists) {
-    messageDiv.textContent = "Username already exists!";
-    messageDiv.style.color = "red";
-  } else {
-    // Add the new user
+  // Check if the user already exists
+  const userExists = users.some(user => user.username === username && user.password === password);
+
+  if (!userExists) {
+    // Add the new user if they don't exist
     users.push({ username, password });
     localStorage.setItem('users', JSON.stringify(users));
-
-    // Redirect to the language selection page
-    window.location.href = 'language.html';
   }
+
+  // Redirect to the language selection page
+  window.location.href = 'language.html';
 });
+

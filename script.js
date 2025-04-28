@@ -1,30 +1,27 @@
-// Получаем элементы формы
+// Get form and message elements
 const form = document.getElementById('registrationForm');
 const messageDiv = document.getElementById('message');
 
-// Добавляем обработчик отправки формы
+// Handle form submission
 form.addEventListener('submit', (e) => {
-  e.preventDefault(); // Предотвращаем перезагрузку страницы
+  e.preventDefault(); // Prevent page reload
 
   const username = document.getElementById('username').value;
   const password = document.getElementById('password').value;
 
-  // Проверяем, есть ли уже такой пользователь
+  // Check if the user already exists
   let users = JSON.parse(localStorage.getItem('users')) || [];
   const userExists = users.some(user => user.username === username);
 
   if (userExists) {
-    messageDiv.textContent = "Пользователь с таким именем уже существует!";
+    messageDiv.textContent = "Username already exists!";
     messageDiv.style.color = "red";
   } else {
-    // Добавляем нового пользователя
+    // Add the new user
     users.push({ username, password });
     localStorage.setItem('users', JSON.stringify(users));
 
-    messageDiv.textContent = "Регистрация успешна!";
-    messageDiv.style.color = "green";
-
-    // Очищаем форму
-    form.reset();
+    // Redirect to the language selection page
+    window.location.href = 'language.html';
   }
 });

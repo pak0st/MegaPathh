@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Language</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Select Your Language:</h1>
+    <ul>
+      <li><button class="language-button">Hebrew</button></li>
+      <li><button class="language-button">Russian</button></li>
+      <li><button class="language-button">English</button></li>
+      <li><button class="language-button">Portuguese (Brazilian)</button></li>
+    </ul>
+    <h2>Your megama:</h2>
+    <p>Biology</p>
+  </div>
+  <script>
+    document.querySelectorAll('.language-button').forEach(button => {
+      button.addEventListener('click', () => {
+        alert(`You selected: ${button.textContent}`);
+      });
+    });
+  </script>
+</body>
+</html>

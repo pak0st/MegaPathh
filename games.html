@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select a Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Select a Game:</h1>
+    <ul>
+      <li><button class="game-button" data-game="flashcard">Flashcards (Match Word & Translation)</button></li>
+      <li><button class="game-button" data-game="word-picture">Match Word & Picture</button></li>
+    </ul>
+  </div>
+
+  <script>
+    // Extract parameters from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const selectedLang = urlParams.get('lang');
+    const selectedGrade = urlParams.get('grade');
+
+    console.log(`Language: ${selectedLang}, Grade: ${selectedGrade}`);
+
+    // Handle game selection
+    document.querySelectorAll('.game-button').forEach(button => {
+      button.addEventListener('click', () => {
+        const gameType = button.dataset.game;
+
+        // Redirect to the game with data
+        window.location.href = play-game.html?lang=${selectedLang}&grade=${selectedGrade}&game=${gameType};
+      });
+    });
+  </script>
+</body>
+</html>

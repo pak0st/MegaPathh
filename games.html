@@ -15,23 +15,19 @@
     </ul>
   </div>
 
-  <script>
-    // Extract parameters from URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const selectedLang = urlParams.get('lang');
-    const selectedGrade = urlParams.get('grade');
+<!-- Keep your buttons with data-game attribute -->
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const selectedLang = urlParams.get('lang');
+  const selectedGrade = urlParams.get('grade');
 
-    console.log(`Language: ${selectedLang}, Grade: ${selectedGrade}`);
-
-    // Handle game selection
-    document.querySelectorAll('.game-button').forEach(button => {
-      button.addEventListener('click', () => {
-        const gameType = button.dataset.game;
-
-        // Redirect to the game with data
-        window.location.href = play-game.html?lang=${selectedLang}&grade=${selectedGrade}&game=${gameType};
-      });
+  document.querySelectorAll('.game-button').forEach(button => {
+    button.addEventListener('click', () => {
+      const gameType = button.dataset.game;
+      // Redirect to game page
+      window.location.href = `play-game.html?lang=${selectedLang}&grade=${selectedGrade}&game=${gameType}`;
     });
-  </script>
+  });
+</script>
 </body>
 </html>

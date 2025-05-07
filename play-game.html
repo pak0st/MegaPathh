@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Play Game</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
   <div class="container">
@@ -12,38 +12,60 @@
     <div id="game-container"></div>
   </div>
 
+  <!-- Load your data -->
+  <script src="updated_words_data.js"></script>
+
   <script>
-    // Extract parameters
     const urlParams = new URLSearchParams(window.location.search);
     const lang = urlParams.get('lang');
     const grade = urlParams.get('grade');
     const game = urlParams.get('game');
 
-    const wordsData = {
-      "10": {
-        hebrew: [
-          { word: "אטום", translation: { hebrew: "אטום", english: "atom", portuguese: "átomo", russian: "атом" } },
-          { word: "מולקולה", translation: { hebrew: "מולקולה", english: "molecule", portuguese: "molécula", russian: "молекула" } }
-        ]
-      },
-      // Add data for grades 11 and 12
-    };
-
-    const gameContainer = document.getElementById('game-container');
     const gameTitle = document.getElementById('game-title');
+    const gameContainer = document.getElementById('game-container');
 
-    // Display game based on selection
+    const words = gradesData[grade];
+    if (!words) {
+      gameContainer.innerText = "No words available for this grade.";
+      return;
+    }
+
     if (game === "flashcard") {
       gameTitle.textContent = "Flashcards";
-      const words = wordsData[grade];
-      words.hebrew.forEach(item => {
+      let currentIndex = 0;
+
+      function showCard() {
+        gameContainer.innerHTML = ""; // clear previous content
+        const item = words[currentIndex];
         const card = document.createElement('div');
-        card.textContent = ${item.word} - ${item.translation[lang]};
+        card.innerHTML = `
+          <h2>${item.word}</h2>
+          <button id="show">Show Translation</button>
+          <p id="translation" style="display:none;">${item.translation[lang]}</p>
+          <button id="next">Next</button>
+        `;
         gameContainer.appendChild(card);
-      });
-    } else if (game === "word-picture") {
-      gameTitle.textContent = "Match Word & Picture";
-      gameContainer.textContent = "Feature coming soon!";
+
+        document.getElementById("show").addEventListener("click", () => {
+          document.getElementById("translation").style.display = "block";
+        });
+
+        document.getElementById("next").addEventListener("click", () => {
+          currentIndex++;
+          if (currentIndex < words.length) {
+            showCard();
+          } else {
+            gameContainer.innerHTML = "<h2>You've completed all cards!</h2>";
+          }
+        });
+      }
+
+      showCard();
+    }
+
+    else if (game === "word-picture") {
+      gameTitle.textContent = "Word to Picture";
+      gameContainer.innerHTML = "<p>Feature coming soon.</p>";
     }
   </script>
 </body>

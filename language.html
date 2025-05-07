@@ -1,43 +1,76 @@
-document.addEventListener("DOMContentLoaded", () => {
-  let selectedLanguage = null;
-  let selectedGrade = null;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Select Language & Grade</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Select Your Language and Grade</h1>
 
-  document.querySelectorAll('.language-button').forEach(button => {
-    button.addEventListener('click', () => {
-      selectedLanguage = button.textContent.toLowerCase();
-      alert(`You selected: ${selectedLanguage}`);
+    <section>
+      <h2>Language</h2>
+      <button class="language-button">English</button>
+      <button class="language-button">Portuguese</button>
+      <button class="language-button">Hebrew</button>
+    </section>
+
+    <section>
+      <h2>Grade</h2>
+      <button class="grade-button" data-grade="10">Grade 10</button>
+      <button class="grade-button" data-grade="11">Grade 11</button>
+      <button class="grade-button" data-grade="12">Grade 12</button>
+    </section>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      let selectedLanguage = null;
+      let selectedGrade = null;
+
+      // Select language
+      document.querySelectorAll('.language-button').forEach(button => {
+        button.addEventListener('click', () => {
+          selectedLanguage = button.textContent.toLowerCase();
+          alert(`Language selected: ${selectedLanguage}`);
+        });
+      });
+
+      // Select grade and redirect
+      document.querySelectorAll('.grade-button').forEach(button => {
+        button.addEventListener('click', () => {
+          selectedGrade = button.dataset.grade;
+
+          if (selectedLanguage && selectedGrade) {
+            // Redirect to games.html with parameters
+            window.location.href = `games.html?lang=${selectedLanguage}&grade=${selectedGrade}`;
+          } else {
+            alert("Please select a language and a grade.");
+          }
+        });
+      });
     });
-  });
+  </script>
+</body>
+</html>
+🔧 Optional Styling (in style.css)
+If you want basic spacing and visuals:
 
-  document.querySelectorAll('.grade-button').forEach(button => {
-    button.addEventListener('click', () => {
-      selectedGrade = button.dataset.grade;
-      if (selectedLanguage && selectedGrade) {
-        // Redirect to games.html with parameters
-        window.location.href = `games.html?lang=${selectedLanguage}&grade=${selectedGrade}`;
-      } else {
-        alert("Please select a language and grade first.");
-      }
-    });
-  });
-});
-2. games.html
-Update to redirect to play-game.html with the selected game:
-
-html
+css
 Copy
 Edit
-<!-- Keep your buttons with data-game attribute -->
-<script>
-  const urlParams = new URLSearchParams(window.location.search);
-  const selectedLang = urlParams.get('lang');
-  const selectedGrade = urlParams.get('grade');
+.container {
+  max-width: 600px;
+  margin: auto;
+  text-align: center;
+  padding: 2em;
+}
 
-  document.querySelectorAll('.game-button').forEach(button => {
-    button.addEventListener('click', () => {
-      const gameType = button.dataset.game;
-      // Redirect to game page
-      window.location.href = `play-game.html?lang=${selectedLang}&grade=${selectedGrade}&game=${gameType}`;
-    });
-  });
-</script>
+button {
+  padding: 10px 20px;
+  margin: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}

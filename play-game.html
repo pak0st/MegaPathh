@@ -1,55 +1,96 @@
-<script src="updated_words_data.js"></script>
-<script>
-  const urlParams = new URLSearchParams(window.location.search);
-  const lang = urlParams.get('lang');
-  const grade = urlParams.get('grade');
-  const game = urlParams.get('game');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Play Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1 id="game-title"></h1>
+    <div id="game-container"></div>
+  </div>
 
-  const gameTitle = document.getElementById('game-title');
-  const gameContainer = document.getElementById('game-container');
+  <script>
+    // Extract parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const lang = urlParams.get('lang');
+    const grade = urlParams.get('grade');
+    const game = urlParams.get('game');
 
-  const words = gradesData[grade];
-  if (!words) {
-    gameContainer.innerHTML = "<p>No words found for this grade.</p>";
-    return;
-  }
-
-  if (game === "flashcard") {
-    gameTitle.textContent = "Flashcards";
-    let currentIndex = 0;
-
-    function showCard() {
-      if (currentIndex >= words.length) {
-        gameContainer.innerHTML = "<h2>You've completed all cards!</h2>";
-        return;
+    // Sample data for demonstration (must match requested grade & lang)
+    const wordsData = {
+      "10": {
+        hebrew: [
+          { word: "אטום", translation: { hebrew: "אטום", english: "atom", portuguese: "átomo", russian: "атом" } },
+          { word: "מולקולה", translation: { hebrew: "מולקולה", english: "molecule", portuguese: "molécula", russian: "молекула" } }
+        ]
+      },
+      "11": {
+        hebrew: [
+          { word: "חומר", translation: { hebrew: "חומר", english: "matter", portuguese: "matéria", russian: "вещество" } },
+          { word: "ממברנה", translation: { hebrew: "ממברנה", english: "membrane", portuguese: "membrana", russian: "мембрана" } }
+        ]
       }
+    };
 
-      const word = words[currentIndex];
-      gameContainer.innerHTML = `
-        <h2>${word.word}</h2>
-        <button id="show">Show Translation</button>
-        <p id="translation" style="display:none;">${word.translation[lang]}</p>
-        <button id="next">Next</button>
-      `;
+    const gameTitle = document.getElementById('game-title');
+    const gameContainer = document.getElementById('game-container');
 
-      document.getElementById("show").addEventListener("click", () => {
-        document.getElementById("translation").style.display = "block";
-      });
+    const wordsByGrade = wordsData[grade];
 
-      document.getElementById("next").addEventListener("click", () => {
-        currentIndex++;
-        showCard();
-      });
+    if (!wordsByGrade) {
+      gameTitle.textContent = "Error";
+      gameContainer.textContent = "No data available for this grade.";
+      throw new Error("No data for selected grade.");
     }
 
-    showCard();
-  } else if (game === "word-picture") {
-    gameTitle.textContent = "Word to Picture";
-    gameContainer.innerHTML = `
-      <ul>
-        ${words.map(w => `<li>${w.word}</li>`).join("")}
-      </ul>
-      <p><em>Picture matching coming soon!</em></p>
-    `;
-  }
-</script>
+    const words = wordsByGrade[lang];
+    if (!words) {
+      gameTitle.textContent = "Error";
+      gameContainer.textContent = "No words for the selected language.";
+      throw new Error("No words for selected language.");
+    }
+
+    if (game === "flashcard") {
+      gameTitle.textContent = "Flashcards";
+      let currentIndex = 0;
+
+      function showCard() {
+        if (currentIndex >= words.length) {
+          gameContainer.innerHTML = "<p>You've finished the flashcards!</p>";
+          return;
+        }
+
+        const word = words[currentIndex];
+        gameContainer.innerHTML = `
+          <h2>${word.word}</h2>
+          <button id="show">Show Translation</button>
+          <p id="translation" style="display:none;">${word.translation[lang]}</p>
+          <button id="next">Next</button>
+        `;
+
+        document.getElementById("show").addEventListener("click", () => {
+          document.getElementById("translation").style.display = "block";
+        });
+
+        document.getElementById("next").addEventListener("click", () => {
+          currentIndex++;
+          showCard();
+        });
+      }
+
+      showCard();
+    } else if (game === "word-picture") {
+      gameTitle.textContent = "Match Word & Picture";
+      gameContainer.innerHTML = `
+        <ul>
+          ${words.map(w => `<li>${w.word}</li>`).join("")}
+        </ul>
+        <p><em>Picture matching coming soon!</em></p>
+      `;
+    }
+  </script>
+</body>
+</html>

@@ -1,72 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Play Game</title>
-  <link rel="stylesheet" href="style.css"/>
-</head>
-<body>
-  <div class="container">
-    <h1 id="game-title"></h1>
-    <div id="game-container"></div>
-  </div>
+<script src="updated_words_data.js"></script>
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const lang = urlParams.get('lang');
+  const grade = urlParams.get('grade');
+  const game = urlParams.get('game');
 
-  <!-- Load your data -->
-  <script src="updated_words_data.js"></script>
+  const gameTitle = document.getElementById('game-title');
+  const gameContainer = document.getElementById('game-container');
 
-  <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const lang = urlParams.get('lang');
-    const grade = urlParams.get('grade');
-    const game = urlParams.get('game');
+  const words = gradesData[grade];
+  if (!words) {
+    gameContainer.innerHTML = "<p>No words found for this grade.</p>";
+    return;
+  }
 
-    const gameTitle = document.getElementById('game-title');
-    const gameContainer = document.getElementById('game-container');
+  if (game === "flashcard") {
+    gameTitle.textContent = "Flashcards";
+    let currentIndex = 0;
 
-    const words = gradesData[grade];
-    if (!words) {
-      gameContainer.innerText = "No words available for this grade.";
-      return;
-    }
-
-    if (game === "flashcard") {
-      gameTitle.textContent = "Flashcards";
-      let currentIndex = 0;
-
-      function showCard() {
-        gameContainer.innerHTML = ""; // clear previous content
-        const item = words[currentIndex];
-        const card = document.createElement('div');
-        card.innerHTML = `
-          <h2>${item.word}</h2>
-          <button id="show">Show Translation</button>
-          <p id="translation" style="display:none;">${item.translation[lang]}</p>
-          <button id="next">Next</button>
-        `;
-        gameContainer.appendChild(card);
-
-        document.getElementById("show").addEventListener("click", () => {
-          document.getElementById("translation").style.display = "block";
-        });
-
-        document.getElementById("next").addEventListener("click", () => {
-          currentIndex++;
-          if (currentIndex < words.length) {
-            showCard();
-          } else {
-            gameContainer.innerHTML = "<h2>You've completed all cards!</h2>";
-          }
-        });
+    function showCard() {
+      if (currentIndex >= words.length) {
+        gameContainer.innerHTML = "<h2>You've completed all cards!</h2>";
+        return;
       }
 
-      showCard();
+      const word = words[currentIndex];
+      gameContainer.innerHTML = `
+        <h2>${word.word}</h2>
+        <button id="show">Show Translation</button>
+        <p id="translation" style="display:none;">${word.translation[lang]}</p>
+        <button id="next">Next</button>
+      `;
+
+      document.getElementById("show").addEventListener("click", () => {
+        document.getElementById("translation").style.display = "block";
+      });
+
+      document.getElementById("next").addEventListener("click", () => {
+        currentIndex++;
+        showCard();
+      });
     }
 
-    else if (game === "word-picture") {
-      gameTitle.textContent = "Word to Picture";
-      gameContainer.innerHTML = "<p>Feature coming soon.</p>";
-    }
-  </script>
-</body>
-</html>
+    showCard();
+  } else if (game === "word-picture") {
+    gameTitle.textContent = "Word to Picture";
+    gameContainer.innerHTML = `
+      <ul>
+        ${words.map(w => `<li>${w.word}</li>`).join("")}
+      </ul>
+      <p><em>Picture matching coming soon!</em></p>
+    `;
+  }
+</script>

@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let selectedLanguage = null;
   let selectedGrade = null;
 
-  // Сохраняем выбранный язык
   document.querySelectorAll('.language-button').forEach(button => {
     button.addEventListener('click', () => {
       selectedLanguage = button.textContent.toLowerCase();
@@ -10,85 +9,35 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Переход на следующий шаг после выбора класса
   document.querySelectorAll('.grade-button').forEach(button => {
     button.addEventListener('click', () => {
       selectedGrade = button.dataset.grade;
       if (selectedLanguage && selectedGrade) {
-        loadGamesPage(selectedGrade);
+        // Redirect to games.html with parameters
+        window.location.href = `games.html?lang=${selectedLanguage}&grade=${selectedGrade}`;
       } else {
         alert("Please select a language and grade first.");
       }
     });
   });
-
-  // Загрузка страницы с играми
-  function loadGamesPage(grade) {
-    const words = gradesData[grade];
-    if (!words) {
-      alert("No words found for the selected grade.");
-      return;
-    }
-
-    // Создаём новую страницу
-    document.body.innerHTML = `
-      <h1>Select a Game:</h1>
-      <ul>
-        <li><button id="flashcards">Flash Cards</button></li>
-        <li><button id="word-picture">Word to Picture</button></li>
-      </ul>
-    `;
-
-    // Добавляем обработчики для игр
-    document.getElementById('flashcards').addEventListener('click', () => startFlashCards(words));
-    document.getElementById('word-picture').addEventListener('click', () => startWordToPicture(words));
-  }
-
-  // Игра: Flash Cards
-  function startFlashCards(words) {
-    let currentIndex = 0;
-
-    // Генерация интерфейса
-    function showCard() {
-      if (currentIndex >= words.length) {
-        alert("Game over!");
-        return;
-      }
-
-      const word = words[currentIndex];
-      document.body.innerHTML = `
-        <h1>Flash Cards</h1>
-        <h2>${word.word}</h2>
-        <button id="show-translation">Show Translation</button>
-        <button id="next-word">Next Word</button>
-      `;
-
-      // Показываем перевод
-      document.getElementById('show-translation').addEventListener('click', () => {
-        alert(`Translation: ${word.translation[selectedLanguage]}`);
-      });
-
-      // Следующее слово
-      document.getElementById('next-word').addEventListener('click', () => {
-        currentIndex++;
-        showCard();
-      });
-    }
-
-    showCard();
-  }
-
-  // Игра: Word to Picture
-  function startWordToPicture(words) {
-    document.body.innerHTML = `
-      <h1>Word to Picture</h1>
-      <div id="game-area">
-        <p>Match the word to the correct picture. (Currently, no pictures available)</p>
-        <ul id="word-list">
-          ${words.map(w => `<li>${w.word}</li>`).join('')}
-        </ul>
-        <p><strong>Note:</strong> You can replace this with actual image handling logic.</p>
-      </div>
-    `;
-  }
 });
+2. games.html
+Update to redirect to play-game.html with the selected game:
+
+html
+Copy
+Edit
+<!-- Keep your buttons with data-game attribute -->
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const selectedLang = urlParams.get('lang');
+  const selectedGrade = urlParams.get('grade');
+
+  document.querySelectorAll('.game-button').forEach(button => {
+    button.addEventListener('click', () => {
+      const gameType = button.dataset.game;
+      // Redirect to game page
+      window.location.href = `play-game.html?lang=${selectedLang}&grade=${selectedGrade}&game=${gameType}`;
+    });
+  });
+</script>

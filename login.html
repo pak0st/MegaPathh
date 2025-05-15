@@ -5,56 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login - Duoli Flashcards</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
 </head>
 <body>
   <div class="container">
-    <h1>Bem-vindo ao Duoli Flashcards</h1>
-    <div id="g_id_onload"
-         data-client_id="1084402524990-ctdois0kmgg432hjfucmhsji7cvkpdna.apps.googleusercontent.com"
-         data-context="signin"
-         data-ux_mode="popup"
-         data-callback="handleCredentialResponse"
-         data-auto_prompt="false">
-    </div>
-
-    <div class="g_id_signin"
-         data-type="standard"
-         data-shape="rectangular"
-         data-theme="outline"
-         data-text="sign_in_with"
-         data-size="large"
-         data-logo_alignment="left">
-    </div>
-
+    <h1>Welcome To MegaPath</h1>
+    <button id="google-login">Entrar com Google</button>
     <p>ou</p>
     <button onclick="continueAsGuest()">Jogar como visitante</button>
   </div>
 
-  <script>
-    function handleCredentialResponse(response) {
-      try {
-        const data = jwt_decode(response.credential);
-        console.log("Usuário logado:", data);
-
-        localStorage.setItem("user", JSON.stringify({
-          name: data.name,
-          email: data.email,
-          picture: data.picture
-        }));
-
-        window.location.href = "index.html";
-      } catch (err) {
-        console.error("Erro ao decodificar JWT:", err);
-        alert("Erro no login com Google. Tente novamente.");
-      }
-    }
-
-    function continueAsGuest() {
-      localStorage.setItem("user", JSON.stringify({ guest: true }));
-      window.location.href = "index.html";
-    }
-  </script>
+  <script type="module" src="./auth-handler.js"></script>
 </body>
 </html>

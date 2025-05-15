@@ -1,6 +1,6 @@
 // This is an example configuration file for Firebase.
-// Replace the placeholders with your actual Firebase project configuration values.
-// You can find your Firebase configuration in the gruop google Drive under MegaPath GoogleCloud/FireBase ID.
+// You should create a file named firebase-config.js and filled with your actual Firebase project configuration values.
+// You can find your Firebase configuration in the group google Drive under MegaPath GoogleCloud/FireBase ID.
 
 export const firebaseConfig = {
   apiKey: "YOUR_API_KEY_HERE",

@@ -23,30 +23,82 @@
     if (!words) {
       gameContainer.innerHTML = "<p>No words for this grade.</p>";
     } else if (game === "flashcard") {
-      gameTitle.textContent = "Flashcards";
-      let currentIndex = 0;
-      function showCard() {
-        if (currentIndex >= words.length) {
-          gameContainer.innerHTML = "<p>You've finished!</p>";
-          return;
-        }
-        const word = words[currentIndex];
-        gameContainer.innerHTML = `
-          <h2>${word.word}</h2>
-          <button id="show">Show Translation</button>
-          <p id="translation" style="display:none;">${word.translation[lang]}</p>
-          <button id="next">Next</button>
-        `;
-        document.getElementById("show").addEventListener("click", () => {
-          document.getElementById("translation").style.display = "block";
-        });
-        document.getElementById("next").addEventListener("click", () => {
-          currentIndex++;
-          showCard();
-        });
+  gameTitle.textContent = "Flashcards";
+  let currentIndex = 0;
+  let score = 0;
+  let wrongWords = [];
+
+  function showCard() {
+    if (currentIndex >= words.length) {
+      gameContainer.innerHTML = `
+        <h2>You Finished The Game!</h2>
+        <p>Your Pontuation: ${score} de ${words.length}</p>
+        <h3>Your missed words:</h3>
+        <ul>${wrongWords.map(w => `<li>${w}</li>`).join('')}</ul>
+      `;
+      return;
+    }
+
+    const word = words[currentIndex];
+    gameContainer.innerHTML = `
+      <h2>${word.word}</h2>
+      <input type="text" id="answer-input" placeholder="Type the translation" />
+      <button id="check-answer">Check Answer</button>
+      <p id="feedback"></p>
+      <p id="correct-answer" style="display:none;">Correct answer: ${word.translation[lang]}</p>
+      <button id="next">Next</button>
+      <button id="finish">Finish Game</button>
+    `;
+
+    const input = document.getElementById("answer-input");
+    const feedback = document.getElementById("feedback");
+    const correctAnswer = document.getElementById("correct-answer");
+
+    document.getElementById("check-answer").addEventListener("click", () => {
+      const userAnswer = input.value.trim().toLowerCase();
+      const correct = word.translation[lang].toLowerCase();
+
+      if (userAnswer === correct) {
+        feedback.textContent = "✅ Correct!";
+        score++;
+      } else {
+        feedback.textContent = "❌ Wrong.";
+        wrongWords.push(`${word.word} → ${word.translation[lang]}`);
       }
+      correctAnswer.style.display = "block";
+    });
+
+    document.getElementById("next").addEventListener("click", () => {
+      currentIndex++;
       showCard();
-    } else {
+    });
+
+    document.getElementById("finish").addEventListener("click", () => {
+  showFinalResult();
+    });
+
+    // Permitir tecla Enter para verificar resposta
+    input.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        document.getElementById("check-answer").click();
+      }
+    });
+
+    input.focus();
+  }
+
+  function showFinalResult() {
+  gameContainer.innerHTML = `
+    <h2>Game Over</h2>
+    <p>Your score: ${score} out of ${words.length}</p>
+    <h3>Incorrect words:</h3>
+    <ul>${wrongWords.map(w => `<li>${w}</li>`).join('')}</ul>
+    <button onclick="window.location.href='index.html'">Play Again</button>
+  `;
+}
+
+  showCard();
+} else {
       gameTitle.textContent = "Coming Soon";
       gameContainer.innerHTML = "<p>Word-to-picture not available yet.</p>";
     }

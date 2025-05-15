@@ -1,27 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Registration</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Language & Grade</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
-    <h1>Registration</h1>
-    <form id="registrationForm">
-      <label for="username">Your name:</label>
-      <input type="text" id="username" name="username" required>
-      
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" required>
-      
-      <button type="submit">Sign up</button>
-    </form>
-    <div id="message"></div>
+    <h1>Select Language and Grade</h1>
+    <section>
+      <h2>Language</h2>
+      <button class="language-button">English</button>
+      <button class="language-button">Portuguese</button>
+      <button class="language-button">Russian</button>
+    </section>
+    <section>
+      <h2>Grade</h2>
+      <button class="grade-button" data-grade="10">Grade 10</button>
+      <button class="grade-button" data-grade="11">Grade 11</button>
+      <button class="grade-button" data-grade="12">Grade 12</button>
+    </section>
   </div>
-  <script src="script.js"></script>
- <script src="updated_words_data.js" defer></script>
-<script src="script.js" defer></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      let selectedLanguage = null;
+      let selectedGrade = null;
+      document.querySelectorAll('.language-button').forEach(button => {
+        button.addEventListener('click', () => {
+          selectedLanguage = button.textContent.toLowerCase();
+          alert(`Selected: ${selectedLanguage}`);
+        });
+      });
+      document.querySelectorAll('.grade-button').forEach(button => {
+        button.addEventListener('click', () => {
+          selectedGrade = button.dataset.grade;
+          if (selectedLanguage && selectedGrade) {
+            window.location.href = `games.html?lang=${selectedLanguage}&grade=${selectedGrade}`;
+          } else {
+            alert("Select language and grade.");
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>

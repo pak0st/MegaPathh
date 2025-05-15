@@ -1,9 +1,22 @@
+/*
+ * Main Stylesheet
+ * Основная таблица стилей
+ *
+ * This CSS file contains basic styling for the application layout and buttons
+ * Этот CSS файл содержит базовые стили для макета приложения и кнопок
+ */
+
+/* Container styles - centers content and sets maximum width
+   Стили контейнера - центрирует содержимое и устанавливает максимальную ширину */
 .container {
   max-width: 600px;
   margin: auto;
   text-align: center;
   padding: 2em;
 }
+
+/* Button styles - defines common button appearance
+   Стили кнопок - определяет общий вид кнопок */
 button {
   padding: 10px 20px;
   margin: 10px;

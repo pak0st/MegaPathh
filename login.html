@@ -1,19 +1,34 @@
+<!--
+  Login Page
+  Страница входа
+
+  This page provides options for users to login with Google or continue as a guest
+  Эта страница предоставляет пользователям возможность войти через Google или продолжить как гость
+-->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login - Duoli Flashcards</title>
+  <!-- Link to external stylesheet
+       Подключение внешней таблицы стилей -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
     <h1>Welcome To MegaPath</h1>
+    <!-- Google login button
+         Кнопка входа через Google -->
     <button id="google-login">Entrar com Google</button>
     <p>ou</p>
+    <!-- Guest access button
+         Кнопка гостевого доступа -->
     <button onclick="continueAsGuest()">Jogar como visitante</button>
   </div>
 
+  <!-- Import authentication handler module
+       Импорт модуля обработчика аутентификации -->
   <script type="module" src="./auth-handler.js"></script>
 </body>
 </html>

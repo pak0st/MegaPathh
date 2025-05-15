@@ -1,24 +1,42 @@
+<!--
+  Game Selection Page
+  Страница выбора игры
+
+  This page allows users to select which game they want to play
+  Эта страница позволяет пользователям выбрать, в какую игру они хотят играть
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Select Game</title>
+  <!-- Link to external stylesheet
+       Подключение внешней таблицы стилей -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
     <h1>Select a Game</h1>
+    <!-- Game selection buttons
+         Кнопки выбора игры -->
     <button class="game-button" data-game="flashcard">Flashcards</button>
     <button class="game-button" data-game="word-picture">Word & Picture</button>
   </div>
   <script>
+    // Get language and grade parameters from URL
+    // Получение параметров языка и класса из URL
     const urlParams = new URLSearchParams(window.location.search);
     const lang = urlParams.get('lang');
     const grade = urlParams.get('grade');
+
+    // Add click handlers for game selection buttons
+    // Добавление обработчиков клика для кнопок выбора игры
     document.querySelectorAll('.game-button').forEach(button => {
       button.addEventListener('click', () => {
         const gameType = button.dataset.game;
+        // Redirect to the game page with all parameters
+        // Перенаправление на страницу игры со всеми параметрами
         window.location.href = `play-game.html?lang=${lang}&grade=${grade}&game=${gameType}`;
       });
     });

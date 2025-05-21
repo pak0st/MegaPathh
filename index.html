@@ -1,27 +1,73 @@
+<!--
+  Language and Grade Selection Page
+  Страница выбора языка и класса
+
+  This page allows users to select their preferred language and grade level
+  Эта страница позволяет пользователям выбрать предпочитаемый язык и уровень класса
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Registration</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Language & Grade</title>
+  <!-- Link to external stylesheet
+       Подключение внешней таблицы стилей -->
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
-    <h1>Registration</h1>
-    <form id="registrationForm">
-      <label for="username">Your name:</label>
-      <input type="text" id="username" name="username" required>
-      
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" required>
-      
-      <button type="submit">Sign up</button>
-    </form>
-    <div id="message"></div>
+    <h1>Select Language and Grade</h1>
+    <!-- Language selection section
+         Секция выбора языка -->
+    <section>
+      <h2>Language</h2>
+      <button class="language-button">English</button>
+      <button class="language-button">Portuguese</button>
+      <button class="language-button">Russian</button>
+    </section>
+    <!-- Grade selection section
+         Секция выбора класса -->
+    <section>
+      <h2>Grade</h2>
+      <button class="grade-button" data-grade="10">Grade 10</button>
+      <button class="grade-button" data-grade="11">Grade 11</button>
+      <button class="grade-button" data-grade="12">Grade 12</button>
+    </section>
   </div>
-  <script src="script.js"></script>
- <script src="updated_words_data.js" defer></script>
-<script src="script.js" defer></script>
+  <script>
+    // Initialize page when DOM is fully loaded
+    // Инициализация страницы после полной загрузки DOM
+    document.addEventListener("DOMContentLoaded", () => {
+      // Variables to store user selections
+      // Переменные для хранения выбора пользователя
+      let selectedLanguage = null;
+      let selectedGrade = null;
+
+      // Add click handlers for language buttons
+      // Добавление обработчиков клика для кнопок выбора языка
+      document.querySelectorAll('.language-button').forEach(button => {
+        button.addEventListener('click', () => {
+          selectedLanguage = button.textContent.toLowerCase();
+          alert(`Selected: ${selectedLanguage}`);
+        });
+      });
+
+      // Add click handlers for grade buttons
+      // Добавление обработчиков клика для кнопок выбора класса
+      document.querySelectorAll('.grade-button').forEach(button => {
+        button.addEventListener('click', () => {
+          selectedGrade = button.dataset.grade;
+          // Redirect to games page if both selections are made
+          // Перенаправление на страницу игр, если сделаны оба выбора
+          if (selectedLanguage && selectedGrade) {
+            window.location.href = `games.html?lang=${selectedLanguage}&grade=${selectedGrade}`;
+          } else {
+            alert("Select language and grade.");
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>

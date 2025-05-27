@@ -54,7 +54,7 @@ document.getElementById("google-login").addEventListener("click", async () => {
 
 // Function to handle guest access
 // Функция для обработки гостевого доступа
-export function continueAsGuest() {
+function continueAsGuest() {
   // Save guest status to local storage
   // Сохранение статуса гостя в локальное хранилище
   localStorage.setItem("user", JSON.stringify({ guest: true }));
@@ -62,3 +62,6 @@ export function continueAsGuest() {
   // Перенаправление на главную страницу
   window.location.href = "index.html";
 }
+
+// Add event listener for guest login button
+document.getElementById("guest-login").addEventListener("click", continueAsGuest);

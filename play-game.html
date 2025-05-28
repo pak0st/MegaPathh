@@ -1,10 +1,3 @@
-<!--
-  Game Play Page
-  Страница игры
-
-  This page implements the flashcard game functionality and word-picture matching game (coming soon)
-  Эта страница реализует функционал игры с карточками и игры на сопоставление слов с картинками (в разработке)
--->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,18 +5,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Play Game</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background-color: #fff1d6;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      text-align: center;
+      padding: 30px;
+    }
+
+    h1, h2, h3 {
+      color: #4b2e83;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 16px;
+      margin: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #d2f2d2;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 10px;
+    }
+
+    button:hover {
+      background-color: #b3e6b3;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
     <h1 id="game-title"></h1>
     <div id="game-container"></div>
   </div>
-  <!-- Import word data and game logic
-       Импорт данных слов и логики игры -->
+
   <script src="updated_words_data.js"></script>
   <script>
-    // Get game parameters from URL
-    // Получение параметров игры из URL
     const urlParams = new URLSearchParams(window.location.search);
     const lang = urlParams.get('lang');
     const grade = urlParams.get('grade');
@@ -32,33 +57,26 @@
     const gameContainer = document.getElementById('game-container');
     const words = gradesData[grade];
 
-    // Check if words exist for selected grade
-    // Проверка наличия слов для выбранного класса
     if (!words) {
-      gameContainer.innerHTML = "<p>No words for this grade.</p>";
+      gameContainer.innerHTML = "<p>No words available for this grade.</p>";
     } else if (game === "flashcard") {
-      // Flashcard game implementation
-      // Реализация игры с карточками
       gameTitle.textContent = "Flashcards";
       let currentIndex = 0;
       let score = 0;
       let wrongWords = [];
 
-      // Function to display current flashcard
-      // Функция для отображения текущей карточки
       function showCard() {
         if (currentIndex >= words.length) {
           gameContainer.innerHTML = `
             <h2>You Finished The Game!</h2>
-            <p>Your Pontuation: ${score} de ${words.length}</p>
-            <h3>Your missed words:</h3>
+            <p>Your Score: ${score} out of ${words.length}</p>
+            <h3>Incorrect Words:</h3>
             <ul>${wrongWords.map(w => `<li>${w}</li>`).join('')}</ul>
+            <button onclick="window.location.href='index.html'">Play Again</button>
           `;
           return;
         }
 
-        // Display current word and input form
-        // Отображение текущего слова и формы ввода
         const word = words[currentIndex];
         gameContainer.innerHTML = `
           <h2>${word.word}</h2>
@@ -74,8 +92,6 @@
         const feedback = document.getElementById("feedback");
         const correctAnswer = document.getElementById("correct-answer");
 
-        // Check answer button handler
-        // Обработчик кнопки проверки ответа
         document.getElementById("check-answer").addEventListener("click", () => {
           const userAnswer = input.value.trim().toLowerCase();
           const correct = word.translation[lang].toLowerCase();
@@ -84,27 +100,27 @@
             feedback.textContent = "✅ Correct!";
             score++;
           } else {
-            feedback.textContent = "❌ Wrong.";
+            feedback.textContent = "❌ Incorrect.";
             wrongWords.push(`${word.word} → ${word.translation[lang]}`);
           }
           correctAnswer.style.display = "block";
         });
 
-        // Next button handler
-        // Обработчик кнопки "Следующий"
         document.getElementById("next").addEventListener("click", () => {
           currentIndex++;
           showCard();
         });
 
-        // Finish game button handler
-        // Обработчик кнопки завершения игры
         document.getElementById("finish").addEventListener("click", () => {
-          showFinalResult();
+          gameContainer.innerHTML = `
+            <h2>Game Over</h2>
+            <p>Your Score: ${score} out of ${words.length}</p>
+            <h3>Incorrect Words:</h3>
+            <ul>${wrongWords.map(w => `<li>${w}</li>`).join('')}</ul>
+            <button onclick="window.location.href='index.html'">Play Again</button>
+          `;
         });
 
-        // Enter key handler for answer submission
-        // Обработчик клавиши Enter для отправки ответа
         input.addEventListener("keypress", (e) => {
           if (e.key === "Enter") {
             document.getElementById("check-answer").click();
@@ -114,26 +130,10 @@
         input.focus();
       }
 
-      // Function to show final game results
-      // Функция для показа финальных результатов игры
-      function showFinalResult() {
-        gameContainer.innerHTML = `
-          <h2>Game Over</h2>
-          <p>Your score: ${score} out of ${words.length}</p>
-          <h3>Incorrect words:</h3>
-          <ul>${wrongWords.map(w => `<li>${w}</li>`).join('')}</ul>
-          <button onclick="window.location.href='index.html'">Play Again</button>
-        `;
-      }
-
-      // Start the game
-      // Начать игру
       showCard();
     } else {
-      // Word-picture game placeholder
-      // Заглушка для игры сопоставления слов с картинками
       gameTitle.textContent = "Coming Soon";
-      gameContainer.innerHTML = "<p>Word-to-picture not available yet.</p>";
+      gameContainer.innerHTML = "<p>Word-to-picture game is under construction.</p>";
     }
   </script>
 </body>

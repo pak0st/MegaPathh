@@ -1,73 +1,62 @@
-<!--
-  Language and Grade Selection Page
-  Страница выбора языка и класса
-
-  This page allows users to select their preferred language and grade level
-  Эта страница позволяет пользователям выбрать предпочитаемый язык и уровень класса
--->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Language & Grade</title>
-  <!-- Link to external stylesheet
-       Подключение внешней таблицы стилей -->
+  <title>Academic Vocabulary</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background-color: #fff1d6;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    img {
+      width: 220px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      color: #4b2e83;
+      margin: 10px 0;
+    }
+
+    p {
+      font-size: 1.2em;
+      color: #555;
+    }
+
+    button {
+      padding: 12px 24px;
+      font-size: 18px;
+      background-color: #d2f2d2;
+      color: #333;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s;
+      margin-top: 30px;
+    }
+
+    button:hover {
+      background-color: #b3e6b3;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Select Language and Grade</h1>
-    <!-- Language selection section
-         Секция выбора языка -->
-    <section>
-      <h2>Language</h2>
-      <button class="language-button">English</button>
-      <button class="language-button">Portuguese</button>
-      <button class="language-button">Russian</button>
-    </section>
-    <!-- Grade selection section
-         Секция выбора класса -->
-    <section>
-      <h2>Grade</h2>
-      <button class="grade-button" data-grade="10">Grade 10</button>
-      <button class="grade-button" data-grade="11">Grade 11</button>
-      <button class="grade-button" data-grade="12">Grade 12</button>
-    </section>
-  </div>
-  <script>
-    // Initialize page when DOM is fully loaded
-    // Инициализация страницы после полной загрузки DOM
-    document.addEventListener("DOMContentLoaded", () => {
-      // Variables to store user selections
-      // Переменные для хранения выбора пользователя
-      let selectedLanguage = null;
-      let selectedGrade = null;
-
-      // Add click handlers for language buttons
-      // Добавление обработчиков клика для кнопок выбора языка
-      document.querySelectorAll('.language-button').forEach(button => {
-        button.addEventListener('click', () => {
-          selectedLanguage = button.textContent.toLowerCase();
-          alert(`Selected: ${selectedLanguage}`);
-        });
-      });
-
-      // Add click handlers for grade buttons
-      // Добавление обработчиков клика для кнопок выбора класса
-      document.querySelectorAll('.grade-button').forEach(button => {
-        button.addEventListener('click', () => {
-          selectedGrade = button.dataset.grade;
-          // Redirect to games page if both selections are made
-          // Перенаправление на страницу игр, если сделаны оба выбора
-          if (selectedLanguage && selectedGrade) {
-            window.location.href = `games.html?lang=${selectedLanguage}&grade=${selectedGrade}`;
-          } else {
-            alert("Select language and grade.");
-          }
-        });
-      });
-    });
-  </script>
+  <img src="cactus.jpeg.jpeg" alt="Cactus Mascot" />
+  <h1>Welcome to the Academic Vocabulary App!</h1>
+  <p>Click below to start</p>
+  <a href="language.html"><button>Start</button></a>
 </body>
 </html>

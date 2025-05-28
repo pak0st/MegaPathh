@@ -1,94 +1,83 @@
-document.addEventListener("DOMContentLoaded", () => {
-  let selectedLanguage = null;
-  let selectedGrade = null;
-
-  // Сохраняем выбранный язык
-  document.querySelectorAll('.language-button').forEach(button => {
-    button.addEventListener('click', () => {
-      selectedLanguage = button.textContent.toLowerCase();
-      alert(`You selected: ${selectedLanguage}`);
-    });
-  });
-
-  // Переход на следующий шаг после выбора класса
-  document.querySelectorAll('.grade-button').forEach(button => {
-    button.addEventListener('click', () => {
-      selectedGrade = button.dataset.grade;
-      if (selectedLanguage && selectedGrade) {
-        loadGamesPage(selectedGrade);
-      } else {
-        alert("Please select a language and grade first.");
-      }
-    });
-  });
-
-  // Загрузка страницы с играми
-  function loadGamesPage(grade) {
-    const words = gradesData[grade];
-    if (!words) {
-      alert("No words found for the selected grade.");
-      return;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Language & Grade</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background-color: #fff1d6;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
     }
 
-    // Создаём новую страницу
-    document.body.innerHTML = `
-      <h1>Select a Game:</h1>
-      <ul>
-        <li><button id="flashcards">Flash Cards</button></li>
-        <li><button id="word-picture">Word to Picture</button></li>
-      </ul>
-    `;
-
-    // Добавляем обработчики для игр
-    document.getElementById('flashcards').addEventListener('click', () => startFlashCards(words));
-    document.getElementById('word-picture').addEventListener('click', () => startWordToPicture(words));
-  }
-
-  // Игра: Flash Cards
-  function startFlashCards(words) {
-    let currentIndex = 0;
-
-    // Генерация интерфейса
-    function showCard() {
-      if (currentIndex >= words.length) {
-        alert("Game over!");
-        return;
-      }
-
-      const word = words[currentIndex];
-      document.body.innerHTML = `
-        <h1>Flash Cards</h1>
-        <h2>${word.word}</h2>
-        <button id="show-translation">Show Translation</button>
-        <button id="next-word">Next Word</button>
-      `;
-
-      // Показываем перевод
-      document.getElementById('show-translation').addEventListener('click', () => {
-        alert(`Translation: ${word.translation[selectedLanguage]}`);
-      });
-
-      // Следующее слово
-      document.getElementById('next-word').addEventListener('click', () => {
-        currentIndex++;
-        showCard();
-      });
+    h1, h2 {
+      color: #4b2e83;
     }
 
-    showCard();
-  }
+    button {
+      background-color: #d2f2d2;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background-color 0.3s;
+      margin: 10px;
+      padding: 12px 24px;
+      font-size: 18px;
+      cursor: pointer;
+    }
 
-  // Игра: Word to Picture
-  function startWordToPicture(words) {
-    document.body.innerHTML = `
-      <h1>Word to Picture</h1>
-      <div id="game-area">
-        <p>Match the word to the correct picture. (Currently, no pictures available)</p>
-        <ul id="word-list">
-          ${words.map(w => `<li>${w.word}</li>`).join('')}
-        </ul>
-        <p><strong>Note:</strong> You can replace this with actual image handling logic.</p>
-      </div>
-    `;
-  }
-});
+    button:hover {
+      background-color: #b3e6b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>Select Language and Grade</h1>
+
+  <section>
+    <h2>Language</h2>
+    <button class="language-button">English</button>
+    <button class="language-button">Portuguese</button>
+    <button class="language-button">Russian</button>
+  </section>
+
+  <section>
+    <h2>Grade</h2>
+    <button class="grade-button" data-grade="10">Grade 10</button>
+    <button class="grade-button" data-grade="11">Grade 11</button>
+    <button class="grade-button" data-grade="12">Grade 12</button>
+  </section>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      let selectedLanguage = null;
+      let selectedGrade = null;
+
+      document.querySelectorAll('.language-button').forEach(button => {
+        button.addEventListener('click', () => {
+          selectedLanguage = button.textContent.toLowerCase();
+          alert(`Language selected: ${selectedLanguage}`);
+        });
+      });
+
+      document.querySelectorAll('.grade-button').forEach(button => {
+        button.addEventListener('click', () => {
+          selectedGrade = button.dataset.grade;
+          if (selectedLanguage && selectedGrade) {
+            window.location.href = `games.html?lang=${selectedLanguage}&grade=${selectedGrade}`;
+          } else {
+            alert("Please select both language and grade.");
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

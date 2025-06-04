@@ -4,13 +4,56 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Play Game</title>
-  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
+  <script src="updated_words_data.js"></script>
+  <style>
+    body {
+      background-color: #ffe2bd;
+      font-family: 'Rubik', sans-serif;
+      text-align: center;
+      padding: 30px;
+      position: relative;
+    }
+
+    h1, h2, h3 {
+      color: #205375;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 16px;
+      margin: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #d2f2d2;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 10px;
+    }
+
+    button:hover {
+      background-color: #b3e6b3;
+    }
+
+    img.logo {
+      width: 120px;
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1 id="game-title"></h1>
-    <div id="game-container"></div>
-  </div>
+  <h1 id="game-title"></h1>
+  <div id="game-container"></div>
+  <img src="MegaPathLogo.jpg" alt="MegaPath Logo" class="logo" />
   <script src="updated_words_data.js"></script>
   <script src="word_explanations.js"></script>
   <script>
@@ -24,7 +67,7 @@
     const explanations = wordExplanations[grade] || [];
 
     if (!words) {
-      gameContainer.innerHTML = "<p>No words for this grade.</p>";
+      gameContainer.innerHTML = "<p>No words available for this grade.</p>";
     } else if (game === "flashcard") {
       gameTitle.textContent = "Flashcards";
       let currentIndex = 0;
@@ -66,7 +109,7 @@
             feedback.textContent = "✅ Correct!";
             score++;
           } else {
-            feedback.textContent = "❌ Wrong.";
+            feedback.textContent = "❌ Incorrect.";
             wrongWords.push(`${word.word} → ${word.translation[lang]}`);
           }
           correctAnswer.style.display = "block";
@@ -93,18 +136,19 @@
 
       function showFinalResult() {
         gameContainer.innerHTML = `
-          <h2>Game Over</h2>
-          <p>Your score: ${score} out of ${words.length}</p>
-          <h3>Incorrect words:</h3>
-          <ul>${wrongWords.map(w => `<li>${w}</li>`).join('')}</ul>
-          <button onclick="window.location.href='index.html'">Play Again</button>
+            <h2>You Finished The Game!</h2>
+            <p>Your Score: ${score} out of ${words.length}</p>
+            <h3>Incorrect Words:</h3>
+            <ul>${wrongWords.map(w => `<li>${w}</li>`).join('')}</ul>
+            <button onclick="window.location.href='index.html'">Play Again</button>
         `;
       }
+
 
       showCard();
     } else {
       gameTitle.textContent = "Coming Soon";
-      gameContainer.innerHTML = "<p>Word-to-picture not available yet.</p>";
+      gameContainer.innerHTML = "<p>Word-to-picture game is under construction.</p>";
     }
   </script>
 </body>

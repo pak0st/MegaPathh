@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Match Definitions</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    .container { display: flex; justify-content: space-between; flex-wrap: wrap; }
+    .column { width: 45%; }
+    .hebrew-word { display: flex; align-items: center; margin-bottom: 10px; }
+    .hebrew-word input { width: 40px; margin-left: 10px; }
+    .result { margin-top: 20px; font-weight: bold; }
+    button { margin-top: 20px; padding: 10px 20px; }
+  </style>
+</head>
+<body>
+  <h1>Match the Hebrew Words to Definitions</h1>
+  <div class="container">
+    <div class="column" id="definitions"></div>
+    <div class="column" id="hebrew-words"></div>
+  </div>
+  <button onclick="checkAnswers()">Check Answers</button>
+  <div id="result" class="result"></div>
+
+  <script src="word_explanations.js"></script>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const lang = urlParams.get('lang') || 'english';
+    const grade = urlParams.get('grade') || '10';
+
+    const dataSet = wordExplanations[grade] || [];
+    const explanations = [];
+    const hebrewWords = [];
+    const answers = {};
+
+    function getRandomIndexes(arrayLength, count) {
+      const indices = new Set();
+      while (indices.size < count) {
+        indices.add(Math.floor(Math.random() * arrayLength));
+      }
+      return Array.from(indices);
+    }
+
+    function initGame() {
+      const selectedIndexes = getRandomIndexes(dataSet.length, 5);
+      const definitionsDiv = document.getElementById("definitions");
+      const hebrewWordsDiv = document.getElementById("hebrew-words");
+
+      selectedIndexes.forEach((index, i) => {
+        const entry = dataSet[index];
+        const defText = entry[lang];
+        const hebrew = entry.word;
+        explanations.push(`${i + 1}. ${defText}`);
+        hebrewWords.push(hebrew);
+        answers[hebrew] = i + 1;
+      });
+
+      explanations.forEach(text => {
+        const p = document.createElement("p");
+        p.textContent = text;
+        definitionsDiv.appendChild(p);
+      });
+
+      // Shuffle Hebrew words
+      hebrewWords.sort(() => Math.random() - 0.5);
+      hebrewWords.forEach(word => {
+        const div = document.createElement("div");
+        div.className = "hebrew-word";
+        div.innerHTML = `<label>${word}</label><input type="number" min="1" max="5" data-word="${word}" />`;
+        hebrewWordsDiv.appendChild(div);
+      });
+    }
+
+    function checkAnswers() {
+      const inputs = document.querySelectorAll("input[type='number']");
+      let correct = 0;
+      inputs.forEach(input => {
+        const word = input.dataset.word;
+        const userAnswer = parseInt(input.value);
+        if (userAnswer === answers[word]) {
+          correct++;
+        }
+      });
+      const resultDiv = document.getElementById("result");
+      resultDiv.innerHTML = `✅ You got ${correct} out of 5 correct.`;
+    }
+
+    initGame();
+  </script>
+</body>
+</html>

@@ -4,11 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Academic Vocabulary</title>
-  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
   <style>
     body {
-      background-color: #ffeccf;
-      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background-color: #ffe2bd;
+      font-family: 'Rubik', sans-serif;
       margin: 0;
       padding: 0;
       display: flex;
@@ -17,22 +17,31 @@
       justify-content: center;
       height: 100vh;
       text-align: center;
+      position: relative;
     }
 
-    img {
+    img.logo {
+      width: 120px;
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+    }
+
+    img.cactus {
       width: 220px;
-      margin-bottom: 20px;
-    }
-
-    h1 {
-      font-size: 2.5em;
-      color: #4b2e83;
       margin: 10px 0;
     }
 
+    h1 {
+      font-size: 3em;
+      color: #205375;
+      margin: 0;
+    }
+
     p {
-      font-size: 1.2em;
-      color: #555;
+      font-size: 1.3em;
+      color: #205375;
+      margin-top: 5px;
     }
 
     button {
@@ -45,34 +54,21 @@
       cursor: pointer;
       font-weight: bold;
       transition: background-color 0.3s;
-      margin-top: 30px;
+      margin-top: 20px;
     }
 
     button:hover {
       background-color: #b3e6b3;
     }
-
-    .logo {
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
-      width: 140px;
-    }
   </style>
 </head>
 <body>
-  <img src="cactus.jpeg.jpeg" alt="Cactus Mascot" />
-  <h1>Welcome to the Academic Vocabulary App!</h1>
-  <p>Click below to start</p>
+  <h1>Welcome</h1>
+  <img src="cactus.jpg" alt="Cactus Mascot" class="cactus" />
+  <p>To the Academic Vocabulary App!</p>
   <a href="language.html"><button>Start</button></a>
-
-  <!-- Logo MegaPath com fundo transparente -->
-  <div class="logo">
-    <!-- SVG direto para manter a transparência -->
-    <svg viewBox="0 0 286 72" xmlns="http://www.w3.org/2000/svg">
-      <text x="0" y="55" font-family="Comic Sans MS, cursive" font-size="48" fill="#4b2e83">MegaPath</text>
-      <circle cx="270" cy="20" r="10" fill="#4b2e83" />
-    </svg>
-  </div>
+  <img src="MegaPathLogo.jpg" alt="MegaPath Logo" class="logo" />
 </body>
 </html>
+
+

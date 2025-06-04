@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="style.css" />
   <style>
     body {
-      background-color: #fff1d6;
+      background-color: #ffeccf;
       font-family: 'Comic Sans MS', cursive, sans-serif;
       margin: 0;
       padding: 0;
@@ -51,6 +51,13 @@
     button:hover {
       background-color: #b3e6b3;
     }
+
+    .logo {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      width: 140px;
+    }
   </style>
 </head>
 <body>
@@ -58,5 +65,14 @@
   <h1>Welcome to the Academic Vocabulary App!</h1>
   <p>Click below to start</p>
   <a href="language.html"><button>Start</button></a>
+
+  <!-- Logo MegaPath com fundo transparente -->
+  <div class="logo">
+    <!-- SVG direto para manter a transparência -->
+    <svg viewBox="0 0 286 72" xmlns="http://www.w3.org/2000/svg">
+      <text x="0" y="55" font-family="Comic Sans MS, cursive" font-size="48" fill="#4b2e83">MegaPath</text>
+      <circle cx="270" cy="20" r="10" fill="#4b2e83" />
+    </svg>
+  </div>
 </body>
 </html>
